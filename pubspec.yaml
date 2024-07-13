@@ -41,6 +41,9 @@ dependencies:
   flutter_tflite: ^1.0.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  stellar_flutter_sdk: ^1.8.1
+  web3dart: ^2.0.0
+
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +71,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/model/
+    - assets/keys/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
