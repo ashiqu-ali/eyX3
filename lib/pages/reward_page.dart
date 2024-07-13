@@ -3,6 +3,8 @@ import 'package:eyx3/constants/font_styles.dart';
 import 'package:eyx3/constants/size.dart';
 import 'package:flutter/material.dart';
 
+import '../services/db_controller.dart';
+
 class RewardPage extends StatefulWidget {
   const RewardPage({super.key});
 
@@ -11,13 +13,22 @@ class RewardPage extends StatefulWidget {
 }
 
 class _RewardPageState extends State<RewardPage> {
-  List<String> activities = ["Regular CheckUp", "User Diagnosed"];
+  List<String> activities = [];
   int totalReward = 0;
 
   @override
   void initState() {
     super.initState();
-    totalReward = activities.length;
+    fetchActivities();
+  }
+
+  Future<void> fetchActivities() async {
+    DbHelper dbhelper = DbHelper();
+    Map data = await dbhelper.fetch();
+    setState(() {
+      activities = data.values.map((item) => item['category'] as String).toList();
+      totalReward = activities.length;
+    });
   }
 
   @override
@@ -53,8 +64,8 @@ class _RewardPageState extends State<RewardPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Text(activities[index],style: reward)),
-                        Text('+1',style: reward,),
+                            child: Text(activities[index], style: reward)),
+                        Text('+1', style: reward),
                       ],
                     ),
                   );

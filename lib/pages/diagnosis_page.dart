@@ -1,7 +1,7 @@
 import 'dart:io';
+import 'package:eyx3/services/db_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tflite/flutter_tflite.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'dart:developer' as devtools;
 
 import '../components/app_bar.dart';
@@ -125,13 +125,16 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Text(
-                              index != 3 ? 'Know More' : '',
+                              index != 3 ? 'Contact Doctor' : '',
                               style: const TextStyle(
                                 color: Colors.blue,
                               ),
                             ),
                           ),
-                          onTap: () {}
+                          onTap: () async{
+                            DbHelper dbhelper = DbHelper();
+                            await dbhelper.addData("User Diagnosed", "id");
+                          }
                       ),
 
                     ],
@@ -142,9 +145,11 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
           ),
           const SizedBox(height: 30),
           ElevatedButton(
-            onPressed: () {
-              dispose();
+            onPressed: () async{
+              DbHelper dbhelper = DbHelper();
+              index ==  3 ? await dbhelper.addData("Periodic Check", "id") : " ";
               Navigator.pop(context);
+              dispose();
             },
             style: CommonButtonStyle.getButtonStyle(),
             child: Text('Try Another', style: button),
