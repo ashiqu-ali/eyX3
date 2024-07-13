@@ -1,3 +1,7 @@
+import 'dart:js';
+
+import 'package:eyx3/pages/reward_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,10 +22,15 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       ),
       backgroundColor: background,
       actions: [
-        Image.asset(
-          'assets/icons/rewardIcon.png',
-          height: 37,
-          color: white,
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const RewardPage()));
+          },
+          child: Image.asset(
+            'assets/icons/rewardIcon.png',
+            height: 37,
+            color: white,
+          ),
         ),
         const SizedBox(width: xsmall),
       ],
