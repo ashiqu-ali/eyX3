@@ -12,13 +12,13 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(),
+      appBar: AppBarWidget(title: 'eyX3',),
       body: Column(
         children: [
           Column(
             children: [
               const SizedBox(height: large),
-              Center(child: Text('Upload Image for Detection', style: h1)),
+              Center(child: Text('Upload Image for Detection', style: h2)),
               const SizedBox(height: large / 2),
               Card(
                 elevation: xsmall,
