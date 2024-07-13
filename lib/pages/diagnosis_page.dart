@@ -125,7 +125,7 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Text(
-                              index != 3 ? 'Contact Doctor' : '',
+                              index == 3 ? '' : 'Contact Doctor',
                               style: const TextStyle(
                                 color: Colors.blue,
                               ),
