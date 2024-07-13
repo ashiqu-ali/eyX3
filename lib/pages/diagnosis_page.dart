@@ -131,7 +131,7 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
                               ),
                             ),
                           ),
-                          onTap: () => launchUrlString(link.toString())
+                          onTap: () {}
                       ),
 
                     ],
