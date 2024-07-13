@@ -1,18 +1,44 @@
+import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:eyx3/components/app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:developer' as devtools;
 
+import '../components/app_bar.dart';
 import '../constants/colors.dart';
 import '../constants/font_styles.dart';
 import '../constants/size.dart';
+import 'diagnosis_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  File? image;
+
+  Future pickImage(ImageSource source) async {
+    try {
+      final pickedImage = await ImagePicker().pickImage(source: source);
+      if (pickedImage == null) return;
+      final imageTemp = File(pickedImage.path);
+      setState(() => image = imageTemp);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DiagnosisPage(image: image)),
+      );
+    } on PlatformException catch (e) {
+      devtools.log('Failed to pick image: $e');
+    }
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(title: 'eyX3',),
+      appBar: const AppBarWidget(title: 'eyX3',),
       body: Column(
         children: [
           Column(
@@ -42,7 +68,9 @@ class HomePage extends StatelessWidget {
                               SizedBox(
                                 width : 121,
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    pickImage(ImageSource.gallery);
+                                  },
                                   style: ButtonStyle(
                                     backgroundColor:
                                     MaterialStateProperty.all<Color>(background),
@@ -59,7 +87,9 @@ class HomePage extends StatelessWidget {
                               SizedBox(
                                 width: 121,
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    pickImage(ImageSource.gallery);
+                                  },
                                   style: ButtonStyle(
 
                                     backgroundColor:

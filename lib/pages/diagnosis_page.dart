@@ -1,9 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_tflite/flutter_tflite.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'dart:developer' as devtools;
 
 import '../components/app_bar.dart';
 import '../components/common_button_style.dart';
 import '../constants/colors.dart';
+import '../constants/diseases.dart';
 import '../constants/font_styles.dart';
 import '../constants/size.dart';
 
@@ -23,13 +27,60 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
   int? index;
   String description = " ";
 
+  @override
+  void dispose() {
+    super.dispose();
+    Tflite.close();
+  }
 
+  @override
+  void initState() {
+    super.initState();
+    _tfliteinit(context);
+  }
+
+  Future<void> _tfliteinit(BuildContext context) async {
+    String? res = await Tflite.loadModel(
+        model: "assets/model/model.tflite",
+        labels: "assets/model/labels.txt",
+        numThreads: 1,
+        isAsset: true,
+        useGpuDelegate: false);
+
+    if (res != null) {
+      var recognitions = await Tflite.runModelOnImage(
+          path: widget.image!.path,
+          imageMean: 0.0,
+          imageStd: 224.0,
+          numResults: 2,
+          threshold: 0.2,
+          asynch: true);
+
+      if (recognitions == null) {
+        devtools.log("recognitions null");
+        return;
+      }
+
+      devtools.log(recognitions.toString());
+
+      setState(() {
+        detectedDisease = recognitions[0]['label'];
+        link = SeeHow[recognitions[0]['index']];
+        confidence = (recognitions[0]['confidence']*100);
+        index = recognitions[0]['index'];
+        if(index == 3){
+          description = "\nCongrats You Have Normal Eye";
+        } else{
+          description = "\nIts better to visit an ophthalmologist for a comprehensive eye examination";
+        }
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar : AppBarWidget(title: 'eyX3',),
+      appBar : const AppBarWidget(title: 'eyX3',),
       body: Column(
         children: [
           const SizedBox(height: 30),
@@ -80,6 +131,7 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
                               ),
                             ),
                           ),
+                          onTap: () => launchUrlString(link.toString())
                       ),
 
                     ],
@@ -97,7 +149,7 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
             style: CommonButtonStyle.getButtonStyle(),
             child: Text('Try Another', style: button),
           ),
-          SizedBox(height: 100),
+          const SizedBox(height: 100),
           Text('*The results of the eye disease detection may be inaccurate', style: p)
         ],
       ),

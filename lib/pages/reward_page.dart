@@ -53,7 +53,7 @@ class _RewardPageState extends State<RewardPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Text(activities[index],style: p)),
+                          child: Text(activities[index],style: reward)),
                         Text('+1',style: reward,),
                       ],
                     ),

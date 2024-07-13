@@ -1,7 +1,4 @@
-import 'dart:js';
-
 import 'package:eyx3/pages/reward_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,7 +15,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(
         title,
-        style: GoogleFonts.rubik(fontSize: 29, color: Colors.white),
+        style: GoogleFonts.rubik(fontSize: 29, color: white),
       ),
       backgroundColor: background,
       actions: [
