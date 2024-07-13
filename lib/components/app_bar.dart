@@ -1,21 +1,24 @@
-import 'package:eyx3/constants/size.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../constants/colors.dart';
+import '../constants/size.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarWidget({super.key});
-
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Padding(
-        padding: EdgeInsets.all(xsmall),
-        child: Text('eyX3'),
+      title: Text(
+        'eyX3',
+        style: GoogleFonts.rubik(fontSize: 29, color: Colors.white),
       ),
-      actions: [Image.asset('assets/icons/rewardIcon.png', height: 37),
-      const SizedBox(width: xsmall)],
+      backgroundColor: background,
+      actions: [Image.asset('assets/icons/rewardIcon.png', height: 37, color: white,),
+        const SizedBox(width: xsmall)],
+      automaticallyImplyLeading: false,
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
