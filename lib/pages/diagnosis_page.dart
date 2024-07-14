@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tflite/flutter_tflite.dart';
 import 'dart:developer' as devtools;
 import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart';
-
 import '../key/key.dart';
 import '../components/app_bar.dart';
 import '../components/common_button_style.dart';
@@ -76,7 +75,8 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
         if (index == 3) {
           description = "\nCongrats You Have Normal Eye";
         } else {
-          description = "\nIts better to visit an ophthalmologist for a comprehensive eye examination";
+          description =
+              "\nIts better to visit an ophthalmologist for a comprehensive eye examination";
         }
       });
 
@@ -88,18 +88,22 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
   Future<void> _sendStellarTransaction() async {
     try {
       devtools.log("Account ID: ${keyPair.accountId}");
-      AccountResponse account = await stellar.accounts.account(keyPair.accountId);
+      AccountResponse account =
+          await stellar.accounts.account(keyPair.accountId);
       devtools.log("Account loaded: $account");
 
       Transaction transaction = TransactionBuilder(account)
-          .addOperation(PaymentOperationBuilder(
-          keyPair.accountId, AssetTypeNative(), "1").build())
+          .addOperation(
+              PaymentOperationBuilder(keyPair.accountId, AssetTypeNative(), "1")
+                  .build())
           .addMemo(MemoText('Eye Disease Detection Transaction'))
           .build();
 
-      transaction.sign(keyPair, Network.TESTNET); // Change to Network.PUBLIC for mainnet
+      transaction.sign(
+          keyPair, Network.TESTNET); // Change to Network.PUBLIC for mainnet
 
-      SubmitTransactionResponse response = await stellar.submitTransaction(transaction);
+      SubmitTransactionResponse response =
+          await stellar.submitTransaction(transaction);
       devtools.log("Transaction response: ${response.success}");
     } catch (e) {
       devtools.log("Error in Stellar transaction: $e");
@@ -118,7 +122,9 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarWidget(title: 'eyX3',),
+      appBar: const AppBarWidget(
+        title: 'eyX3',
+      ),
       body: Column(
         children: [
           const SizedBox(height: 30),
@@ -130,9 +136,9 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
                 borderRadius: BorderRadius.circular(20),
                 image: widget.image != null
                     ? DecorationImage(
-                  image: FileImage(widget.image!),
-                  fit: BoxFit.cover,
-                )
+                        image: FileImage(widget.image!),
+                        fit: BoxFit.cover,
+                      )
                     : null,
               ),
             ),
@@ -175,9 +181,7 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
 
                             // Call Stellar function here if needed
                             await _sendStellarTransaction();
-                          }
-                      ),
-
+                          }),
                     ],
                   ),
                 ),
@@ -197,7 +201,8 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
             child: Text('Try Another', style: button),
           ),
           const SizedBox(height: 100),
-          Text('*The results of the eye disease detection may be inaccurate', style: p)
+          Text('*The results of the eye disease detection may be inaccurate',
+              style: p)
         ],
       ),
     );
